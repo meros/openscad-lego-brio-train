@@ -1,10 +1,10 @@
 include <lego_brick_builder.scad>
 
-$fn=50;
+$fn=20;
 
 STUDS_WIDTH=4;
 STUDS_LENGTH=8;
-STUDS_HEIGHT=6;
+STUDS_HEIGHT=5;
 
 BODY_WIDTH=BRICK_WIDTH*STUDS_WIDTH;
 BODY_LENGTH=BRICK_WIDTH*STUDS_LENGTH;
@@ -12,34 +12,17 @@ BODY_HEIGHT=PLATE_HEIGHT*STUDS_HEIGHT;
 
 WHEEL_RADIUS=10;
 
-WHEELHOUSE_INSET=6;
+WHEELHOUSE_INSET=8;
 WHEELHOUSE_RADIUS=WHEEL_RADIUS+1;
 
-WHEELPIN_HEIGHT=2;
+WHEELPIN_HEIGHT=4.65/2;
 WHEELPIN_EXTRA=0.5;
+WHEELPIN_EXTRA_LENGTH=0.8;
+
+WHEELPIN_SLOT_THICKNESS=1;
+WHEELPIN_SLOT_LENGTH=4;
 
 MATERIAL_THICKNESS=WALL_THICKNESS;
-
-module body() {
-    difference() {
-        brick(STUDS_WIDTH, STUDS_LENGTH, STUDS_HEIGHT);
-        
-        // Make room for wheel houses
-        translate([0, WHEELHOUSE_RADIUS+WALL_THICKNESS])
-        wheelhouse_hole();
-
-        translate([0, BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS])
-        wheelhouse_hole();
-
-        translate([BODY_WIDTH, WHEELHOUSE_RADIUS+WALL_THICKNESS])
-        rotate([0, 0, 180])
-        wheelhouse_hole();
-
-        translate([BODY_WIDTH, BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS])
-        rotate([0, 0, 180])
-        wheelhouse_hole();
-    }
-}
 
 module wheelhouse_hole() {
     translate([0,0,WHEELPIN_HEIGHT])
@@ -72,14 +55,23 @@ module wheelhouse() {
                     cylinder(
                         r=WHEELPIN_HEIGHT,
                         h=WHEELHOUSE_INSET);
+                    translate([0,0,WHEELHOUSE_INSET-WHEELPIN_EXTRA_LENGTH])
                     cylinder(
-                        r1=WHEELPIN_HEIGHT,
-                        r2=WHEELPIN_HEIGHT+WHEELPIN_EXTRA,
-                        h=1);
+                        r=WHEELPIN_HEIGHT+WHEELPIN_EXTRA,
+                        h=WHEELPIN_EXTRA_LENGTH);
+                    cylinder(
+                        r=WHEELPIN_HEIGHT+WHEELPIN_EXTRA,
+                        h=WHEELPIN_EXTRA_LENGTH);
                 }
                 
-                translate([-WHEELPIN_HEIGHT, -WHEELPIN_HEIGHT/4/2, 0])
-                cube([WHEELPIN_HEIGHT*2, WHEELPIN_HEIGHT/4, 2]);
+                translate([
+                    -WHEELPIN_HEIGHT*2, 
+                    -WHEELPIN_SLOT_THICKNESS/2, 
+                    0])
+                cube([
+                    WHEELPIN_HEIGHT*4, 
+                    WHEELPIN_SLOT_THICKNESS, 
+                    WHEELPIN_SLOT_LENGTH]);
 
                 translate([-100-WHEELPIN_HEIGHT, -50, 0])
                 cube([100,100,100]);
@@ -91,19 +83,61 @@ module wheelhouse() {
     }
 }
 
+module body() {
+    union() {
+        difference() {
+            brick(STUDS_WIDTH, STUDS_LENGTH, STUDS_HEIGHT);
+            
+            // Make room for wheel houses
+            translate([
+                0, 
+                WHEELHOUSE_RADIUS+WALL_THICKNESS])
+            wheelhouse_hole();
+
+            translate([
+                0, 
+                BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS])
+            wheelhouse_hole();
+
+            translate([
+                BODY_WIDTH, 
+                WHEELHOUSE_RADIUS+WALL_THICKNESS])
+            rotate([0, 0, 180])
+            wheelhouse_hole();
+
+            translate([
+                BODY_WIDTH, 
+                BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS])
+            rotate([0, 0, 180])
+            wheelhouse_hole();
+        }
+    
+        // Add wheelhouses
+        translate([
+            0, 
+            WHEELHOUSE_RADIUS+WALL_THICKNESS])
+        wheelhouse();
+
+        translate([
+            0, 
+            BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS])
+        wheelhouse();
+
+        translate([
+            BODY_WIDTH, 
+            WHEELHOUSE_RADIUS+WALL_THICKNESS])
+        rotate([0, 0, 180])
+        wheelhouse();
+
+        translate([
+            BODY_WIDTH, 
+            BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS])
+        rotate([0, 0, 180])
+        wheelhouse();
+    }
+}
+
 body();
 
-translate([0, WHEELHOUSE_RADIUS+WALL_THICKNESS])
-wheelhouse();
 
-translate([0, BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS])
-wheelhouse();
-
-translate([BODY_WIDTH, WHEELHOUSE_RADIUS+WALL_THICKNESS])
-rotate([0, 0, 180])
-wheelhouse();
-
-translate([BODY_WIDTH, BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS])
-rotate([0, 0, 180])
-wheelhouse();
 
