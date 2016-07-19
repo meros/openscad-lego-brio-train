@@ -1,6 +1,6 @@
 include <lego_brick_builder.scad>
 
-$fn=20;
+$fn=50;
 
 STUDS_WIDTH=4;
 STUDS_LENGTH=8;
@@ -29,7 +29,7 @@ module wheelhouse_hole() {
     rotate([0,90,0])
     translate([0,0,-1])
     cylinder(
-        r=WHEELHOUSE_RADIUS+WALL_THICKNESS, 
+        r=WHEELHOUSE_RADIUS, 
         h=WHEELHOUSE_INSET+WALL_THICKNESS+1);
 }
 
@@ -40,9 +40,10 @@ module wheelhouse() {
         rotate([0,90,0])
         union() {
             difference() {
+                translate([0,0,WALL_THICKNESS])
                 cylinder(
                     r=WHEELHOUSE_RADIUS+WALL_THICKNESS, 
-                    h=WHEELHOUSE_INSET+WALL_THICKNESS);
+                    h=WHEELHOUSE_INSET);
                 translate([0,0,-1])
                 cylinder(
                     r=WHEELHOUSE_RADIUS, 
