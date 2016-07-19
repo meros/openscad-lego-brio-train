@@ -30,7 +30,13 @@ module wheelhouse_hole() {
     translate([0,0,-1])
     cylinder(
         r=WHEELHOUSE_RADIUS, 
-        h=WHEELHOUSE_INSET+WALL_THICKNESS+1);
+        h=WHEELHOUSE_INSET+1);
+    translate([0,0,WHEELPIN_HEIGHT])
+    rotate([0,90,0])
+    translate([0,0,WALL_THICKNESS])
+    cylinder(
+        r=WHEELHOUSE_RADIUS+WALL_THICKNESS, 
+        h=WHEELHOUSE_INSET);
 }
 
 module wheelhouse() {
