@@ -15,12 +15,12 @@ WHEEL_RADIUS=10;
 WHEELHOUSE_INSET=8;
 WHEELHOUSE_RADIUS=WHEEL_RADIUS+1;
 
-WHEELPIN_HEIGHT=4.65/2;
-WHEELPIN_EXTRA=0.5;
-WHEELPIN_EXTRA_LENGTH=0.8;
+WHEELPIN_HEIGHT=4.55/2;
+WHEELPIN_EXTRA=0.35;
+WHEELPIN_EXTRA_LENGTH=0.55;
 
-WHEELPIN_SLOT_THICKNESS=1;
-WHEELPIN_SLOT_LENGTH=4;
+WHEELPIN_SLOT_THICKNESS=1.5;
+WHEELPIN_SLOT_LENGTH=6;
 
 MATERIAL_THICKNESS=WALL_THICKNESS;
 
@@ -98,23 +98,23 @@ module body() {
             // Make room for wheel houses
             translate([
                 0, 
-                WHEELHOUSE_RADIUS+WALL_THICKNESS])
+                WHEELHOUSE_RADIUS+WALL_THICKNESS*2])
             wheelhouse_hole();
 
             translate([
                 0, 
-                BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS])
+                BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS*2])
             wheelhouse_hole();
 
             translate([
                 BODY_WIDTH, 
-                WHEELHOUSE_RADIUS+WALL_THICKNESS])
+                WHEELHOUSE_RADIUS+WALL_THICKNESS*2])
             rotate([0, 0, 180])
             wheelhouse_hole();
 
             translate([
                 BODY_WIDTH, 
-                BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS])
+                BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS*2])
             rotate([0, 0, 180])
             wheelhouse_hole();
         }
@@ -122,29 +122,31 @@ module body() {
         // Add wheelhouses
         translate([
             0, 
-            WHEELHOUSE_RADIUS+WALL_THICKNESS])
+            WHEELHOUSE_RADIUS+WALL_THICKNESS*2])
         wheelhouse();
 
         translate([
             0, 
-            BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS])
+            BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS*2])
         wheelhouse();
 
         translate([
             BODY_WIDTH, 
-            WHEELHOUSE_RADIUS+WALL_THICKNESS])
+            WHEELHOUSE_RADIUS+WALL_THICKNESS*2])
         rotate([0, 0, 180])
         wheelhouse();
 
         translate([
             BODY_WIDTH, 
-            BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS])
+            BODY_LENGTH-WHEELHOUSE_RADIUS-WALL_THICKNESS*2])
         rotate([0, 0, 180])
         wheelhouse();
     }
 }
 
 body();
+
+
 
 
 

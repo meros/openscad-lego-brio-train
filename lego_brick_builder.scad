@@ -20,7 +20,7 @@ BRICK_WIDTH = 5*FLU; // basic brick width
 BRICK_HEIGHT = 6*FLU; // basic brick height
 PLATE_HEIGHT = 2*FLU; // basic plate height
 WALL_THICKNESS = FLU; // outer wall of the brick
-STUD_RADIUS = 1.5*FLU; // studs are the small cylinders on top of the brick with the lego logo ('nopje' in Dutch)
+STUD_RADIUS = 1.5*FLU+0.05; // studs are the small cylinders on top of the brick with the lego logo ('nopje' in Dutch)
 STUD_HEIGHT = FLU; 
 ANTI_STUD_RADIUS = 0.5*4.07*FLU;  // an anti stud is the hollow cylinder inside bricks that have length > 1 and width > 1
 PIN_RADIUS = FLU; // a pin is the small cylinder inside bricks that have length = 1 or width = 1
@@ -59,10 +59,11 @@ module brick(length = 4, width = 2, height = 3, smooth = false){
 	}
 	// Studs
 	if(!smooth){
-		translate([STUD_RADIUS+WALL_THICKNESS,STUD_RADIUS+WALL_THICKNESS,height*PLATE_HEIGHT])
-		for (y = [0:width-1]){
+        for (y = [0:width-1]){
 			for (x = [0:length-1]){
-				translate ([x*BRICK_WIDTH,y*BRICK_WIDTH,-CORRECTION])
+				translate ([
+                    (x + 0.5)*BRICK_WIDTH,
+                    (y + 0.5)*BRICK_WIDTH,height*PLATE_HEIGHT-CORRECTION])
 				difference(){
 					cylinder(h=STUD_HEIGHT+CORRECTION, r=STUD_RADIUS);
 					// Stud inner holes
